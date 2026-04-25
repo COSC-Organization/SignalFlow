@@ -13,10 +13,12 @@
   "packageManager": "pnpm@10.32.1",
   "devDependencies": {
     "@types/node": "^25.6.0",
+    "@types/pako": "^2.0.4",
     "@types/sdp-transform": "^2.15.0",
     "typescript": "^6.0.2"
   },
   "dependencies": {
+    "pako": "^2.1.0",
     "sdp-transform": "^3.0.0"
   }
 }
