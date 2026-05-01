@@ -222,7 +222,7 @@ function buildGroups(
 ): BundleGroup[] {
   return (groups ?? []).map((g) => ({
     type: g.type,
-    mids: g.mids.split(' '),
+    mids: String(g.mids).split(' '),
   }));
 }
 
