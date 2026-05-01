@@ -13,6 +13,7 @@ import type {
   RidConfig,
   SctpConfig,
 } from './types';
+import { detectSource } from './detector';
 
 // ── Helpers ─────────────────────────────────────────────────────────
 
@@ -241,7 +242,7 @@ export function parseSDP(raw: string): ParsedSDP {
 
   const parsed = sdpTransform.parse(normalized);
 
-  return {
+  const result: ParsedSDP = {
     raw,
 
     origin: buildOrigin(parsed.origin),
@@ -255,9 +256,13 @@ export function parseSDP(raw: string): ParsedSDP {
 
     media: (parsed.media ?? []).map(mapMediaSection),
 
-    // Source detection is handled by detector.ts
+    // Placeholder — overwritten immediately below
     source: 'Unknown',
   };
+
+  result.source = detectSource(result);
+
+  return result;
 }
 
 /**
