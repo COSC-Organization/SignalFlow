@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "pnpm --filter dashboard dev",
     "build": "pnpm --filter dashboard build",
+    "build:dashboard": "pnpm --filter dashboard build",
+    "deploy": "pnpm --filter dashboard build && wrangler pages deploy apps/dashboard/out --project-name signalflow",
     "start": "pnpm --filter dashboard start",
     "lint": "pnpm -r lint",
     "test": "echo \"Error: no test specified\" && exit 1"
