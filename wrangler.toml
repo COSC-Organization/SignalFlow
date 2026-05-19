@@ -1,5 +1,8 @@
 name = "signalflow"
 compatibility_date = "2024-01-01"
 
+[assets]
+directory = "./apps/dashboard/out"
+
 [env.production]
 name = "signalflow"
