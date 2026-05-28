@@ -153,19 +153,19 @@ function ComparePageInner() {
   const infoCount = result?.issues.filter((i) => i.severity === 'info').length ?? 0;
 
   return (
-    <div className="flex min-h-full flex-col" style={{ backgroundColor: '#0d0d0d' }}>
+    <div className="flex min-h-full flex-col" style={{ backgroundColor: '#000000' }}>
       {/* ── Header ──────────────────────────────────────────────── */}
-      <header className="border-b border-zinc-800/60">
+      <header className="border-b border-white/20">
         <div className="mx-auto max-w-7xl px-6 py-8">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-purple-600">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-white bg-black">
               <span className="text-sm font-bold text-white">SF</span>
             </div>
             <div>
-              <h1 className="text-2xl font-bold tracking-tight text-zinc-100">
+              <h1 className="text-2xl font-bold tracking-tight text-white">
                 SDP Diff
               </h1>
-              <p className="text-sm text-zinc-500">
+              <p className="text-sm text-white/60">
                 Paste two SDPs. See what changed. Understand why.
               </p>
             </div>
@@ -197,7 +197,7 @@ function ComparePageInner() {
           <button
             onClick={() => runCompare(sdp1Raw, sdp2Raw)}
             disabled={isComparing || !sdp1Raw.trim() || !sdp2Raw.trim()}
-            className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-50"
+            className="inline-flex items-center gap-2 rounded-lg border border-white bg-white px-4 py-2 text-sm font-medium text-black transition-colors hover:bg-black hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isComparing && <Spinner />}
             {isComparing ? 'Comparing…' : 'Compare'}
@@ -207,7 +207,7 @@ function ComparePageInner() {
 
           {/* Summary counts */}
           {result && (
-            <div className="flex items-center gap-2 text-xs text-zinc-500">
+            <div className="flex items-center gap-2 text-xs text-white/60">
               {errorCount > 0 && (
                 <span className="rounded bg-red-500/20 px-2 py-0.5 font-medium text-red-300">
                   {errorCount} {errorCount === 1 ? 'error' : 'errors'}
@@ -229,9 +229,9 @@ function ComparePageInner() {
           {/* Browser badges */}
           {result && (
             <div className="ml-auto flex items-center gap-2">
-              <span className="text-xs text-zinc-600">Detected:</span>
+              <span className="text-xs text-white/50">Detected:</span>
               <BrowserBadge source={result.parsed1.source} />
-              <span className="text-xs text-zinc-700">→</span>
+              <span className="text-xs text-white/40">→</span>
               <BrowserBadge source={result.parsed2.source} />
             </div>
           )}
@@ -242,10 +242,10 @@ function ComparePageInner() {
           <div className="mt-8 grid gap-6 xl:grid-cols-3">
             {/* Diff view — 2 columns */}
             <div className="xl:col-span-2">
-              <h2 className="mb-3 text-sm font-semibold text-zinc-300">
+              <h2 className="mb-3 text-sm font-semibold text-white">
                 Diff
                 {result.diff.items.length > 0 && (
-                  <span className="ml-2 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-amber-500/20 px-1.5 text-xs font-semibold text-amber-300">
+                  <span className="ml-2 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-white/20 px-1.5 text-xs font-semibold text-white">
                     {result.diff.items.length}
                   </span>
                 )}
@@ -259,7 +259,7 @@ function ComparePageInner() {
 
             {/* Issues panel — 1 column */}
             <div>
-              <h2 className="mb-3 text-sm font-semibold text-zinc-300">
+              <h2 className="mb-3 text-sm font-semibold text-white">
                 Diagnostics
                 {result.issues.length > 0 && (
                   <span className="ml-2 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500/20 px-1.5 text-xs font-semibold text-red-300">
@@ -275,13 +275,13 @@ function ComparePageInner() {
         {/* ── Empty state ───────────────────────────────────────── */}
         {!result && !sdp1Raw && !sdp2Raw && (
           <div className="mt-20 flex flex-col items-center gap-4 text-center">
-            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-zinc-800/50">
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-white/20 bg-black">
               <span className="text-2xl">🔍</span>
             </div>
-            <h2 className="text-xl font-semibold text-zinc-200">
+            <h2 className="text-xl font-semibold text-white">
               Compare two SDPs
             </h2>
-            <p className="max-w-md text-sm leading-relaxed text-zinc-500">
+            <p className="max-w-md text-sm leading-relaxed text-white/60">
               Paste an Offer on the left and an Answer on the right. SignalFlow
               will show a semantic diff, detect the source browser or SFU, and
               run 18 diagnostic rules covering ICE, DTLS, codecs, simulcast,
@@ -292,8 +292,8 @@ function ComparePageInner() {
       </main>
 
       {/* ── Footer ──────────────────────────────────────────────── */}
-      <footer className="border-t border-zinc-800/40 py-4">
-        <p className="text-center text-xs text-zinc-600">
+      <footer className="border-t border-white/10 py-4">
+        <p className="text-center text-xs text-white/50">
           SignalFlow — Open-source WebRTC SDP debugger
         </p>
       </footer>

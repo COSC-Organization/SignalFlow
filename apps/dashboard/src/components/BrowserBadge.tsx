@@ -1,15 +1,15 @@
 import type { SDPSource } from '@signalflow/shared';
 
 const sourceColors: Record<SDPSource, { bg: string; text: string }> = {
-  Chrome:    { bg: 'bg-blue-500/20',   text: 'text-blue-300' },
-  Firefox:   { bg: 'bg-orange-500/20', text: 'text-orange-300' },
-  Safari:    { bg: 'bg-zinc-500/20',   text: 'text-zinc-300' },
-  LiveKit:   { bg: 'bg-purple-500/20', text: 'text-purple-300' },
-  'Daily.co':{ bg: 'bg-indigo-500/20', text: 'text-indigo-300' },
-  mediasoup: { bg: 'bg-yellow-500/20', text: 'text-yellow-300' },
-  Pion:      { bg: 'bg-cyan-500/20',   text: 'text-cyan-300' },
-  Janus:     { bg: 'bg-emerald-500/20',text: 'text-emerald-300' },
-  Unknown:   { bg: 'bg-zinc-700/40',   text: 'text-zinc-400' },
+  Chrome:    { bg: 'bg-white/10 border border-white/20',   text: 'text-white' },
+  Firefox:   { bg: 'bg-white/10 border border-white/20', text: 'text-white' },
+  Safari:    { bg: 'bg-white/10 border border-white/20',   text: 'text-white' },
+  LiveKit:   { bg: 'bg-white/10 border border-white/20', text: 'text-white' },
+  'Daily.co':{ bg: 'bg-white/10 border border-white/20', text: 'text-white' },
+  mediasoup: { bg: 'bg-white/10 border border-white/20', text: 'text-white' },
+  Pion:      { bg: 'bg-white/10 border border-white/20',   text: 'text-white' },
+  Janus:     { bg: 'bg-white/10 border border-white/20',text: 'text-white' },
+  Unknown:   { bg: 'bg-white/5 border border-white/10',   text: 'text-white/50' },
 };
 
 interface BrowserBadgeProps {

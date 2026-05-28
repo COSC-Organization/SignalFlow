@@ -15,8 +15,8 @@ interface IssuesPanelProps {
 export function IssuesPanel({ issues }: IssuesPanelProps) {
   if (issues.length === 0) {
     return (
-      <div className="rounded-lg border border-green-500/20 bg-green-500/5 px-4 py-3">
-        <p className="text-sm font-medium text-green-400">
+      <div className="rounded-lg border border-white/20 bg-black px-4 py-3">
+        <p className="text-sm font-medium text-white">
           ✓ No issues detected
         </p>
       </div>
@@ -57,15 +57,15 @@ export function IssuesPanel({ issues }: IssuesPanelProps) {
         return (
           <div
             key={`${issue.id}-${idx}`}
-            className={`rounded-lg border border-zinc-800 bg-zinc-900/50 pl-0 ${cfg.border} border-l-4`}
+            className={`rounded-lg border border-white/20 bg-black pl-0 ${cfg.border} border-l-4`}
           >
             <div className="px-4 py-3">
-              <p className="text-sm font-bold text-zinc-100">{issue.title}</p>
-              <p className="mt-1 text-sm leading-relaxed text-zinc-400">
+              <p className="text-sm font-bold text-white">{issue.title}</p>
+              <p className="mt-1 text-sm leading-relaxed text-white/70">
                 {issue.explanation}
               </p>
-              <p className="mt-2 text-sm text-zinc-300">
-                <span className="font-semibold text-green-400">Fix: </span>
+              <p className="mt-2 text-sm text-white">
+                <span className="font-semibold text-white">Fix: </span>
                 {issue.fix}
               </p>
             </div>
