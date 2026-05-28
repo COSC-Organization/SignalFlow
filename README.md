@@ -27,7 +27,7 @@ SignalFlow fixes the first problem completely. You paste your Offer and Answer S
 
 ## Live demo
 
-👉 **[signalflow.dev](https://signalflow.dev)**
+👉 **[signalflow.cosc25.in](https://signalflow.cosc25.in)**
 
 Try a pre-loaded failure scenario on the homepage — no SDP required to see the tool in action.
 
@@ -530,4 +530,4 @@ If SignalFlow saves you time, consider:
 
 ---
 
-*Built by COSC · [cosc25.in](cosc25.in) 
+*Built by COSC* · [cosc25.in](cosc25.in) 
