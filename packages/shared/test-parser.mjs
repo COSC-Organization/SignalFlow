@@ -27,21 +27,44 @@ a=rtpmap:96 VP8/90000
 a=rtpmap:97 rtx/90000
 a=fmtp:97 apt=96`;
 
+let failed = false;
+
 try {
   const result = parseSDP(testSDP);
   console.log('✅ Parsed OK');
-  console.log('Media sections:', result.media.length); // expect 2
-  console.log('Audio codecs:', result.media[0].codecs.map(c => c.name)); // expect ['opus']
-  console.log('Video codecs:', result.media[1].codecs.map(c => c.name)); // expect ['VP8']
-  console.log('VP8 has RTX:', result.media[1].codecs[0].rtx); // expect 97
-  console.log('ICE ufrag:', result.media[0].iceUfrag); // expect 'abc123'
+  if (result.media.length !== 2) {
+    console.error('❌ Media sections count is not 2, got:', result.media.length);
+    failed = true;
+  }
+  if (!result.media[0].codecs.map(c => c.name).includes('opus')) {
+    console.error('❌ Expected audio codec opus, got:', result.media[0].codecs.map(c => c.name));
+    failed = true;
+  }
+  if (!result.media[1].codecs.map(c => c.name).includes('VP8')) {
+    console.error('❌ Expected video codec VP8, got:', result.media[1].codecs.map(c => c.name));
+    failed = true;
+  }
+  if (result.media[1].codecs[0].rtx !== 97) {
+    console.error('❌ Expected VP8 RTX map 97, got:', result.media[1].codecs[0].rtx);
+    failed = true;
+  }
+  if (result.media[0].iceUfrag !== 'abc123') {
+    console.error('❌ Expected ICE ufrag abc123, got:', result.media[0].iceUfrag);
+    failed = true;
+  }
 } catch(e) {
   console.error('❌ FAILED:', e.message);
+  failed = true;
 }
 
 try {
   parseSDP('not an sdp');
-  console.error('❌ Should have thrown');
+  console.error('❌ Should have thrown on invalid SDP');
+  failed = true;
 } catch(e) {
   console.log('✅ Correctly threw on invalid SDP:', e.message);
+}
+
+if (failed) {
+  process.exit(1);
 }

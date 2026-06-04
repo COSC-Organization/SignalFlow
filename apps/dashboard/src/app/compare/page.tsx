@@ -115,18 +115,22 @@ function ComparePageInner() {
     const exampleSlug = searchParams.get('example');
     if (exampleSlug && EXAMPLES_BY_SLUG[exampleSlug]) {
       const ex = EXAMPLES_BY_SLUG[exampleSlug];
-      setSdp1Raw(ex.sdp1);
-      setSdp2Raw(ex.sdp2);
-      runCompare(ex.sdp1, ex.sdp2);
+      setTimeout(() => {
+        setSdp1Raw(ex.sdp1);
+        setSdp2Raw(ex.sdp2);
+        runCompare(ex.sdp1, ex.sdp2);
+      }, 0);
       return;
     }
 
     // 2. Fall back to URL hash
     const saved = loadFromHash();
     if (saved) {
-      setSdp1Raw(saved.sdp1);
-      setSdp2Raw(saved.sdp2);
-      runCompare(saved.sdp1, saved.sdp2);
+      setTimeout(() => {
+        setSdp1Raw(saved.sdp1);
+        setSdp2Raw(saved.sdp2);
+        runCompare(saved.sdp1, saved.sdp2);
+      }, 0);
     }
   }, [runCompare, searchParams]);
 

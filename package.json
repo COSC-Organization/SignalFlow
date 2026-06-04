@@ -10,10 +10,13 @@
     "deploy": "pnpm --filter dashboard build && wrangler pages deploy apps/dashboard/out --project-name signalflow",
     "start": "pnpm --filter dashboard start",
     "lint": "pnpm -r lint",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "pnpm -r --if-present test"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.32.1"
+  "packageManager": "pnpm@10.32.1",
+  "devDependencies": {
+    "wrangler": "^4.97.0"
+  }
 }

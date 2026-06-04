@@ -48,11 +48,17 @@ const checks = [
   ['codec-missing-rtx', 'warning'],
 ];
 
+let failed = false;
 checks.forEach(([id, expectedSeverity]) => {
   const found = issues.find(i => i.id === id);
   if (found && found.severity === expectedSeverity) {
     console.log(`✅ ${id}`);
   } else {
     console.log(`❌ ${id} — expected severity ${expectedSeverity}, got: ${found?.severity || 'NOT FOUND'}`);
+    failed = true;
   }
 });
+
+if (failed) {
+  process.exit(1);
+}

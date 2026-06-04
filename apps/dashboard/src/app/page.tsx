@@ -130,7 +130,7 @@ export default function HomePage() {
                   <br />
                   {'  '}<span className="text-white">if</span> (desc?.sdp) {'{'}
                   <br />
-                  {'    '}console.log(<span className="text-white">"%c[SignalFlow] "</span> + desc.type.toUpperCase(), <span className="text-white">"color: #34d399; font-weight: bold"</span>);
+                  {'    '}console.log(<span className="text-white">{'"%c[SignalFlow] "'}</span> + desc.type.toUpperCase(), <span className="text-white">{'"color: #34d399; font-weight: bold"'}</span>);
                   <br />
                   {'    '}console.log(desc.sdp);
                   <br />

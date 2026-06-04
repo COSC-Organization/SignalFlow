@@ -65,6 +65,11 @@ try {
   console.log(fpChange ? '✅ Fingerprint change detected' : '❌ Fingerprint change NOT detected');
 
   console.log('Media changes count:', result.mediaChanges.length); // expect 2
+
+  if (!av1Removed || !fpChange || result.mediaChanges.length !== 2) {
+    process.exit(1);
+  }
 } catch(e) {
   console.error('❌ Error:', e.message, e.stack);
+  process.exit(1);
 }
