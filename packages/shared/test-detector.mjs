@@ -30,8 +30,15 @@ try {
   const livekit = parseSDP(livekitSDP);
   console.log('LiveKit detection:', livekit.source); // expect 'LiveKit'
   
-  console.log(chrome.source === 'Chrome' ? '✅ Chrome detected' : '❌ Chrome FAILED');
-  console.log(livekit.source === 'LiveKit' ? '✅ LiveKit detected' : '❌ LiveKit FAILED');
+  const chromeSuccess = chrome.source === 'Chrome';
+  const livekitSuccess = livekit.source === 'LiveKit';
+  console.log(chromeSuccess ? '✅ Chrome detected' : '❌ Chrome FAILED');
+  console.log(livekitSuccess ? '✅ LiveKit detected' : '❌ LiveKit FAILED');
+
+  if (!chromeSuccess || !livekitSuccess) {
+    process.exit(1);
+  }
 } catch(e) {
   console.error('❌ Error:', e.message);
+  process.exit(1);
 }
