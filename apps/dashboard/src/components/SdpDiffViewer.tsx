@@ -15,17 +15,17 @@ const typeConfig: Record<
   DiffType,
   { pill: string; label: string }
 > = {
-  added:     { pill: 'bg-white text-black font-bold border border-white',  label: 'added' },
-  removed:   { pill: 'bg-black text-white/50 border border-white/20',      label: 'removed' },
-  changed:   { pill: 'bg-black text-white border border-white/60',  label: 'changed' },
-  unchanged: { pill: 'bg-transparent text-white/30',    label: 'same' },
+  added:     { pill: 'bg-ink text-canvas font-semibold',  label: 'added' },
+  removed:   { pill: 'bg-surface-strong text-muted',      label: 'removed' },
+  changed:   { pill: 'bg-primary text-on-primary font-semibold',  label: 'changed' },
+  unchanged: { pill: 'bg-transparent text-muted-soft',    label: 'same' },
 };
 
 const severityBorder: Record<string, string> = {
-  error:   'border-l-red-500',
+  error:   'border-l-semantic-error',
   warning: 'border-l-yellow-500',
   info:    'border-l-blue-500',
-  ok:      'border-l-white/20',
+  ok:      'border-l-transparent',
 };
 
 /** Determine the worst severity present in a set of diff items. */
@@ -52,7 +52,7 @@ function mediaTypeLabel(type: string): string {
 function TypeBadge({ type }: { type: DiffType }) {
   const cfg = typeConfig[type];
   return (
-    <span className={`inline-flex rounded px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${cfg.pill}`}>
+    <span className={`inline-flex items-center justify-center rounded px-2 py-[2px] text-[10px] font-semibold uppercase tracking-[0.96px] ${cfg.pill}`}>
       {cfg.label}
     </span>
   );
@@ -60,25 +60,25 @@ function TypeBadge({ type }: { type: DiffType }) {
 
 function DiffTable({ items }: { items: DiffItem[] }) {
   return (
-    <table className="w-full text-xs">
+    <table className="w-full text-[14px]">
       <thead>
-        <tr className="border-b border-white/20 text-left text-white/50">
-          <th className="w-[30%] py-1.5 pr-3 font-medium">Field</th>
-          <th className="w-[28%] py-1.5 pr-3 font-medium">Before</th>
-          <th className="w-[28%] py-1.5 pr-3 font-medium">After</th>
-          <th className="w-[14%] py-1.5 font-medium">Status</th>
+        <tr className="border-b border-hairline text-left text-muted font-medium">
+          <th className="w-[30%] py-2 pr-3 font-medium">Field</th>
+          <th className="w-[28%] py-2 pr-3 font-medium">Before</th>
+          <th className="w-[28%] py-2 pr-3 font-medium">After</th>
+          <th className="w-[14%] py-2 font-medium">Status</th>
         </tr>
       </thead>
       <tbody>
         {items.map((item, i) => (
           <tr
             key={`${item.path}-${i}`}
-            className="border-b border-white/10 last:border-b-0"
+            className="border-b border-hairline-soft last:border-b-0"
           >
             {/* Field */}
-            <td className="py-1.5 pr-3">
+            <td className="py-2.5 pr-3">
               <span
-                className="block max-w-[200px] truncate font-mono text-white"
+                className="block max-w-[200px] truncate font-mono text-ink"
                 title={item.label}
               >
                 {item.label}
@@ -86,43 +86,43 @@ function DiffTable({ items }: { items: DiffItem[] }) {
             </td>
 
             {/* Before */}
-            <td className="py-1.5 pr-3">
+            <td className="py-2.5 pr-3">
               {item.valueBefore ? (
                 <span
                   className={`block max-w-[200px] truncate font-mono ${
                     item.type === 'removed' || item.type === 'changed'
-                      ? 'text-white/40 line-through'
-                      : 'text-white/35'
+                      ? 'text-muted line-through'
+                      : 'text-body'
                   }`}
                   title={item.valueBefore}
                 >
                   {item.valueBefore}
                 </span>
               ) : (
-                <span className="text-white/20">—</span>
+                <span className="text-muted-soft">—</span>
               )}
             </td>
 
             {/* After */}
-            <td className="py-1.5 pr-3">
+            <td className="py-2.5 pr-3">
               {item.valueAfter ? (
                 <span
                   className={`block max-w-[200px] truncate font-mono ${
                     item.type === 'added' || item.type === 'changed'
-                      ? 'text-white font-medium'
-                      : 'text-white/35'
+                      ? 'text-ink font-medium'
+                      : 'text-body'
                   }`}
                   title={item.valueAfter}
                 >
                   {item.valueAfter}
                 </span>
               ) : (
-                <span className="text-white/20">—</span>
+                <span className="text-muted-soft">—</span>
               )}
             </td>
 
             {/* Type badge */}
-            <td className="py-1.5">
+            <td className="py-2.5">
               <TypeBadge type={item.type} />
             </td>
           </tr>
@@ -150,38 +150,38 @@ function CollapsibleSection({
   const [open, setOpen] = useState(defaultOpen);
 
   return (
-    <div className={`rounded-lg border border-white/20 bg-black border-l-4 ${borderClass} overflow-hidden`}>
+    <div className={`rounded-xl border border-hairline bg-surface-card border-l-4 ${borderClass} overflow-hidden shadow-sm`}>
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex w-full items-center gap-3 px-4 py-2.5 text-left transition-colors hover:bg-white/5"
+        className="flex w-full items-center gap-3 px-5 py-3.5 text-left transition-colors hover:bg-surface-strong"
       >
         {/* Chevron */}
         <svg
-          className={`h-3.5 w-3.5 shrink-0 text-white/50 transition-transform ${open ? 'rotate-90' : ''}`}
+          className={`h-4 w-4 shrink-0 text-muted transition-transform ${open ? 'rotate-90' : ''}`}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
-          strokeWidth={2.5}
+          strokeWidth={2}
         >
           <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
         </svg>
 
-        <span className="text-xs font-bold uppercase tracking-wider text-white">
+        <span className="text-[12px] font-semibold uppercase tracking-[0.96px] text-ink">
           {title}
         </span>
 
         {subtitle && (
-          <span className="text-xs text-white/55">{subtitle}</span>
+          <span className="text-[14px] text-muted">{subtitle}</span>
         )}
 
-        <span className="ml-auto inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-white/10 px-1.5 text-[10px] font-semibold text-white/70">
+        <span className="ml-auto inline-flex h-5 min-w-5 items-center justify-center rounded-pill bg-surface-strong px-2 text-[10px] font-bold text-ink">
           {itemCount}
         </span>
       </button>
 
       {open && (
-        <div className="border-t border-white/20 px-4 py-2">
+        <div className="border-t border-hairline px-5 py-3">
           {children}
         </div>
       )}
@@ -201,8 +201,8 @@ export function SdpDiffViewer({ diff, parsed1, parsed2 }: SdpDiffViewerProps) {
   // ── Empty state ───────────────────────────────────────────────
   if (diff.items.length === 0) {
     return (
-      <div className="rounded-lg border border-white/20 bg-black px-4 py-3">
-        <p className="text-sm font-medium text-white">
+      <div className="rounded-xl border border-hairline bg-surface-card px-5 py-4 shadow-sm">
+        <p className="text-[15px] font-medium text-ink">
           ✓ No differences found between these two SDPs
         </p>
       </div>
@@ -212,9 +212,6 @@ export function SdpDiffViewer({ diff, parsed1, parsed2 }: SdpDiffViewerProps) {
   // ── Summary bar ───────────────────────────────────────────────
   const { summary } = diff;
 
-  // ── Split items into session-level vs media-level ─────────────
-  // Items whose path starts with "media[" belong to a media section;
-  // everything else is session-level.
   const mediaPaths = new Set(
     diff.mediaChanges.flatMap((mc) => mc.items.map((i) => `${i.path}|${i.label}`)),
   );
@@ -222,37 +219,35 @@ export function SdpDiffViewer({ diff, parsed1, parsed2 }: SdpDiffViewerProps) {
     (i) => !mediaPaths.has(`${i.path}|${i.label}`),
   );
 
-  // Suppress the parsed1/parsed2 props from triggering unused-var warnings
-  // They're kept in the API for future use (e.g. rendering raw SDP snippets)
   void parsed1;
   void parsed2;
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-4">
       {/* ── Summary badges ───────────────────────────────────────── */}
-      <div className="flex flex-wrap items-center gap-2 text-xs">
+      <div className="flex flex-wrap items-center gap-2 text-[12px]">
         {summary.changes > 0 && (
-          <span className="rounded bg-white/10 border border-white/20 px-2 py-0.5 font-medium text-white">
+          <span className="rounded-pill bg-surface-strong px-3 py-1 font-medium text-ink">
             {summary.changes} changed
           </span>
         )}
         {summary.additions > 0 && (
-          <span className="rounded bg-white/20 border border-white/40 px-2 py-0.5 font-medium text-white">
+          <span className="rounded-pill bg-surface-strong px-3 py-1 font-medium text-ink">
             {summary.additions} added
           </span>
         )}
         {summary.removals > 0 && (
-          <span className="rounded bg-black border border-white/30 px-2 py-0.5 font-medium text-white/60">
+          <span className="rounded-pill bg-surface-strong px-3 py-1 font-medium text-muted">
             {summary.removals} removed
           </span>
         )}
         {summary.errors > 0 && (
-          <span className="rounded bg-red-500/15 px-2 py-0.5 font-medium text-red-400">
+          <span className="rounded-pill bg-semantic-error/10 px-3 py-1 font-semibold text-semantic-error">
             {summary.errors} {summary.errors === 1 ? 'error' : 'errors'}
           </span>
         )}
         {summary.warnings > 0 && (
-          <span className="rounded bg-yellow-500/15 px-2 py-0.5 font-medium text-yellow-400">
+          <span className="rounded-pill bg-yellow-500/10 px-3 py-1 font-semibold text-yellow-600 dark:text-yellow-500">
             {summary.warnings} {summary.warnings === 1 ? 'warning' : 'warnings'}
           </span>
         )}

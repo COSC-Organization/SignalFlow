@@ -17,10 +17,10 @@ export function SdpTextarea({
   source,
 }: SdpTextareaProps) {
   return (
-    <div className="flex flex-col gap-1.5">
+    <div className="flex flex-col gap-2">
       {/* Label row */}
       <div className="flex items-center gap-2">
-        <label className="text-sm font-medium text-white">{label}</label>
+        <label className="text-[16px] font-medium text-ink">{label}</label>
         {source && <BrowserBadge source={source} />}
       </div>
 
@@ -30,16 +30,16 @@ export function SdpTextarea({
         onChange={(e) => onChange(e.target.value)}
         placeholder="Paste SDP here..."
         spellCheck={false}
-        className={`min-h-[200px] w-full resize-y rounded-lg border bg-black px-3 py-2 font-mono text-sm text-white placeholder:text-white/40 outline-none transition-colors focus:ring-2 focus:ring-white/40 ${
+        className={`min-h-[240px] w-full resize-y rounded-md border bg-canvas-soft px-4 py-3 font-mono text-[14px] leading-relaxed text-ink placeholder:text-muted-soft outline-none transition-colors focus:ring-2 focus:ring-primary/20 ${
           error
-            ? 'border-red-500/60 focus:ring-red-500/40'
-            : 'border-white/20 hover:border-white/50'
+            ? 'border-semantic-error focus:border-semantic-error focus:ring-semantic-error/20'
+            : 'border-hairline-strong hover:border-ink focus:border-ink'
         }`}
       />
 
       {/* Error message */}
       {error && (
-        <p className="text-xs text-red-400">{error}</p>
+        <p className="text-[14px] text-semantic-error mt-1">{error}</p>
       )}
     </div>
   );

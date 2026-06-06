@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect, useRef, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import {
   parseSDP,
   diffSDPs,
@@ -17,6 +18,7 @@ import { ShareButton } from '@/components/ShareButton';
 import { BrowserBadge } from '@/components/BrowserBadge';
 import { saveToHash, loadFromHash } from '@/lib/share';
 import { EXAMPLES_BY_SLUG } from '@/lib/example-sdps';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 // ── Types ───────────────────────────────────────────────────────────
 
@@ -111,7 +113,6 @@ function ComparePageInner() {
   // ── Load from query param or URL hash on mount ──────────────────
 
   useEffect(() => {
-    // 1. Check for ?example= query param
     const exampleSlug = searchParams.get('example');
     if (exampleSlug && EXAMPLES_BY_SLUG[exampleSlug]) {
       const ex = EXAMPLES_BY_SLUG[exampleSlug];
@@ -123,7 +124,6 @@ function ComparePageInner() {
       return;
     }
 
-    // 2. Fall back to URL hash
     const saved = loadFromHash();
     if (saved) {
       setTimeout(() => {
@@ -157,27 +157,35 @@ function ComparePageInner() {
   const infoCount = result?.issues.filter((i) => i.severity === 'info').length ?? 0;
 
   return (
-    <div className="flex min-h-full flex-col" style={{ backgroundColor: '#000000' }}>
-      {/* ── Header ──────────────────────────────────────────────── */}
-      <header className="border-b border-white/20">
-        <div className="mx-auto max-w-7xl px-6 py-8">
-          <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-white bg-black">
-              <span className="text-sm font-bold text-white">SF</span>
+    <div className="flex flex-1 flex-col w-full">
+      {/* ── Top Nav ──────────────────────────────────────────────── */}
+      <header className="h-[64px] border-b border-hairline bg-canvas flex items-center">
+        <div className="mx-auto flex w-full max-w-[1200px] items-center justify-between px-6">
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-surface-strong group-hover:bg-surface-dark transition-colors group-hover:text-on-dark">
+              <span className="text-xs font-bold uppercase tracking-wider">SF</span>
             </div>
-            <div>
-              <h1 className="text-2xl font-bold tracking-tight text-white">
-                SDP Diff
-              </h1>
-              <p className="text-sm text-white/60">
-                Paste two SDPs. See what changed. Understand why.
-              </p>
-            </div>
+            <h1 className="text-base font-medium tracking-tight text-ink font-sans">
+              SignalFlow
+            </h1>
+          </Link>
+          <div className="flex items-center gap-4">
+            <ThemeToggle />
           </div>
         </div>
       </header>
 
-      <main className="mx-auto w-full max-w-7xl flex-1 px-6 py-8">
+      <main className="mx-auto w-full max-w-[1200px] flex-1 px-6 py-[48px]">
+        {/* ── Page Header ───────────────────────────────────────── */}
+        <div className="mb-12">
+          <h2 className="text-[36px] font-light tracking-[-0.36px] text-ink font-serif mb-2">
+            SDP Diff
+          </h2>
+          <p className="text-[16px] text-body">
+            Paste two SDPs. See what changed. Understand why.
+          </p>
+        </div>
+
         {/* ── SDP Input Grid ────────────────────────────────────── */}
         <div className="grid gap-6 lg:grid-cols-2">
           <SdpTextarea
@@ -197,33 +205,37 @@ function ComparePageInner() {
         </div>
 
         {/* ── Action row ────────────────────────────────────────── */}
-        <div className="mt-6 flex flex-wrap items-center gap-3">
+        <div className="mt-8 flex flex-wrap items-center gap-4">
           <button
             onClick={() => runCompare(sdp1Raw, sdp2Raw)}
             disabled={isComparing || !sdp1Raw.trim() || !sdp2Raw.trim()}
-            className="inline-flex items-center gap-2 rounded-lg border border-white bg-white px-4 py-2 text-sm font-medium text-black transition-colors hover:bg-black hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+            className="inline-flex h-[40px] items-center gap-2 rounded-pill bg-primary px-[20px] py-[10px] text-[15px] font-medium leading-none text-on-primary transition-colors hover:bg-primary-active disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isComparing && <Spinner />}
             {isComparing ? 'Comparing…' : 'Compare'}
           </button>
 
-          {result && <ShareButton />}
+          {result && (
+            <div className="flex items-center">
+              <ShareButton />
+            </div>
+          )}
 
           {/* Summary counts */}
           {result && (
-            <div className="flex items-center gap-2 text-xs text-white/60">
+            <div className="flex items-center gap-2 text-xs">
               {errorCount > 0 && (
-                <span className="rounded bg-red-500/20 px-2 py-0.5 font-medium text-red-300">
+                <span className="rounded-pill bg-semantic-error/10 px-2.5 py-1 font-semibold uppercase tracking-[0.96px] text-semantic-error">
                   {errorCount} {errorCount === 1 ? 'error' : 'errors'}
                 </span>
               )}
               {warningCount > 0 && (
-                <span className="rounded bg-yellow-500/20 px-2 py-0.5 font-medium text-yellow-300">
+                <span className="rounded-pill bg-yellow-500/10 px-2.5 py-1 font-semibold uppercase tracking-[0.96px] text-yellow-600 dark:text-yellow-500">
                   {warningCount} {warningCount === 1 ? 'warning' : 'warnings'}
                 </span>
               )}
               {infoCount > 0 && (
-                <span className="rounded bg-blue-500/20 px-2 py-0.5 font-medium text-blue-300">
+                <span className="rounded-pill bg-blue-500/10 px-2.5 py-1 font-semibold uppercase tracking-[0.96px] text-blue-600 dark:text-blue-400">
                   {infoCount} info
                 </span>
               )}
@@ -233,9 +245,9 @@ function ComparePageInner() {
           {/* Browser badges */}
           {result && (
             <div className="ml-auto flex items-center gap-2">
-              <span className="text-xs text-white/50">Detected:</span>
+              <span className="text-xs font-semibold uppercase tracking-[0.96px] text-muted">Detected:</span>
               <BrowserBadge source={result.parsed1.source} />
-              <span className="text-xs text-white/40">→</span>
+              <span className="text-xs text-muted-soft">→</span>
               <BrowserBadge source={result.parsed2.source} />
             </div>
           )}
@@ -243,13 +255,13 @@ function ComparePageInner() {
 
         {/* ── Results ───────────────────────────────────────────── */}
         {result && (
-          <div className="mt-8 grid gap-6 xl:grid-cols-3">
+          <div className="mt-12 grid gap-6 xl:grid-cols-3">
             {/* Diff view — 2 columns */}
             <div className="xl:col-span-2">
-              <h2 className="mb-3 text-sm font-semibold text-white">
+              <h2 className="mb-4 text-[20px] font-medium text-ink flex items-center gap-2">
                 Diff
                 {result.diff.items.length > 0 && (
-                  <span className="ml-2 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-white/20 px-1.5 text-xs font-semibold text-white">
+                  <span className="inline-flex h-[24px] min-w-[24px] items-center justify-center rounded-pill bg-surface-strong px-2 text-[12px] font-semibold text-ink">
                     {result.diff.items.length}
                   </span>
                 )}
@@ -263,10 +275,10 @@ function ComparePageInner() {
 
             {/* Issues panel — 1 column */}
             <div>
-              <h2 className="mb-3 text-sm font-semibold text-white">
+              <h2 className="mb-4 text-[20px] font-medium text-ink flex items-center gap-2">
                 Diagnostics
                 {result.issues.length > 0 && (
-                  <span className="ml-2 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500/20 px-1.5 text-xs font-semibold text-red-300">
+                  <span className="inline-flex h-[24px] min-w-[24px] items-center justify-center rounded-pill bg-semantic-error/10 px-2 text-[12px] font-semibold text-semantic-error">
                     {result.issues.length}
                   </span>
                 )}
@@ -278,34 +290,31 @@ function ComparePageInner() {
 
         {/* ── Empty state ───────────────────────────────────────── */}
         {!result && !sdp1Raw && !sdp2Raw && (
-          <div className="mt-20 flex flex-col items-center gap-4 text-center">
-            <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-white/20 bg-black">
+          <div className="mt-24 flex flex-col items-center gap-4 text-center">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-surface-strong">
               <span className="text-2xl">🔍</span>
             </div>
-            <h2 className="text-xl font-semibold text-white">
+            <h2 className="text-[24px] font-light text-ink font-serif mt-2">
               Compare two SDPs
             </h2>
-            <p className="max-w-md text-sm leading-relaxed text-white/60">
+            <p className="max-w-md text-[16px] leading-[1.5] text-body">
               Paste an Offer on the left and an Answer on the right. SignalFlow
               will show a semantic diff, detect the source browser or SFU, and
-              run 18 diagnostic rules covering ICE, DTLS, codecs, simulcast,
-              and BUNDLE.
+              run diagnostic rules.
             </p>
           </div>
         )}
       </main>
 
       {/* ── Footer ──────────────────────────────────────────────── */}
-      <footer className="border-t border-white/10 py-4">
-        <p className="text-center text-xs text-white/50">
+      <footer className="border-t border-hairline py-8">
+        <p className="text-center text-[15px] text-body">
           SignalFlow — Open-source WebRTC SDP debugger
         </p>
       </footer>
     </div>
   );
 }
-
-// ── Default export with Suspense boundary (required by useSearchParams) ─
 
 export default function ComparePage() {
   return (
